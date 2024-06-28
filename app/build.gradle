@@ -69,5 +69,6 @@ dependencies {
     // Koin Core features
     implementation "io.insert-koin:koin-core:$koin_version"
     // Koin main features for Android
+    //noinspection UseTomlInstead
     implementation "io.insert-koin:koin-android:$koin_version"
 }
