@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -64,11 +65,21 @@ dependencies {
     debugImplementation libs.androidx.ui.tooling
     debugImplementation libs.androidx.ui.test.manifest
 
-//Koin
+    //Koin
     ext.koin_version = '3.4.0'
     // Koin Core features
     implementation "io.insert-koin:koin-core:$koin_version"
     // Koin main features for Android
-    //noinspection UseTomlInstead
-    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation libs.koin.android
+
+    //Ktor Client
+    ext.ktor_version = '1.6.2'
+    implementation libs.ktor.client.android
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
+    implementation libs.ktor.client.gson
+
+    implementation libs.kotlinx.serialization.json
+
 }
