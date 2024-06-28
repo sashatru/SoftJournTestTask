@@ -1,8 +1,5 @@
-package com.example.eventsapp.network
+package com.example.eventapp.network
 
-import com.example.eventapp.network.Event
-import com.example.eventapp.network.GraphQLRequest
-import com.example.eventapp.network.ResponseWrapper
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
