@@ -69,6 +69,7 @@ dependencies {
     ext.koin_version = '3.4.0'
     // Koin Core features
     implementation "io.insert-koin:koin-core:$koin_version"
+    implementation libs.koin.androidx.compose
     // Koin main features for Android
     implementation libs.koin.android
 
@@ -81,5 +82,8 @@ dependencies {
     implementation libs.ktor.client.gson
 
     implementation libs.kotlinx.serialization.json
+
+    //Coil
+    implementation libs.coil.compose
 
 }
