@@ -72,15 +72,15 @@ fun EventItem(event: Event) {
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(event.posters?.firstOrNull()?.sizes?.small?.location)
                     .crossfade(true)
-                    .build(),
-                contentScale = ContentScale.Crop
+                    .build()
             )
             Image(
                 painter = painter,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Inside,
                 modifier = Modifier
                     .height(200.dp)
+                    .padding(top = 4.dp)
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
