@@ -1,5 +1,6 @@
 package com.example.eventapp.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventapp.model.Event
@@ -22,7 +23,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
                 val events = repository.getEvents()
                 // Process data using sequences: filter, sort, and map
                 val processedEvents = events.asSequence()
-                    .filter { it.priceRangeStart > 0 } // Example filter: price greater than 0
+                    .filter { it.priceRangeStart!! > 0 } // Example filter: price greater than 0
                     .sortedBy { it.title } // Example sort: by title
                     .map { event ->
                         // Example map: convert price to a formatted string
@@ -32,7 +33,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
                 _events.value = processedEvents
             } catch (e: Exception) {
                 e.printStackTrace()
-                TODO()
+                Log.e("BugFix", "fetchEvents error" + e.message )
             }
         }
     }

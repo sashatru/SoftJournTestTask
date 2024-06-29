@@ -4,16 +4,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Poster(
-    val id: String,
-    val sizes: PosterSize
+    val id: String?,
+    val sizes: PosterSize?
 )
 
 @Serializable
 data class PosterSize(
-    val small: PosterLocation
+    val small: PosterLocation?
 )
 
 @Serializable
 data class PosterLocation(
-    val location: String
+    val location: String?
 )

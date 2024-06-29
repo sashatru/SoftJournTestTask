@@ -28,7 +28,11 @@ class ApiService(private val client: HttpClient) {
         fun create(): ApiService {
             val client = HttpClient {
                 install(JsonFeature) {
-                    serializer = KotlinxSerializer()
+                    serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                        coerceInputValues = true
+                    })
                 }
                 install(Logging) {
                     level = LogLevel.BODY
