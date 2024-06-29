@@ -42,7 +42,10 @@ fun EventListScreen(viewModel: EventViewModel = getViewModel()) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Events") })
+            TopAppBar(title = { Text(
+                text = "Events",
+                style = MaterialTheme.typography.displayMedium
+            ) })
         }
     )
     { innerPadding ->
