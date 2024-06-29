@@ -1,4 +1,3 @@
-// ui/screens/EventListScreen.kt
 package com.example.eventapp.ui.screens
 
 import androidx.compose.foundation.Image
@@ -15,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ShapeDefaults.Small
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -22,9 +22,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.eventapp.model.Event
+import com.example.eventapp.model.Organizer
+import com.example.eventapp.model.Poster
+import com.example.eventapp.model.PosterLocation
+import com.example.eventapp.model.PosterSize
 import com.example.eventapp.ui.viewmodel.EventViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -59,8 +66,15 @@ fun EventItem(event: Event) {
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         Column {
+            val painter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(event.posters.firstOrNull()?.sizes?.small?.location)
+                    .crossfade(true)
+                    .build(),
+                contentScale = ContentScale.Crop
+            )
             Image(
-                painter = rememberAsyncImagePainter(event.posters.firstOrNull()?.sizes?.small?.location),
+                painter = painter,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -80,4 +94,21 @@ fun EventItem(event: Event) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun EventItemPreview() {
+    EventItem(
+        Event(
+            id = "1",
+            title = "Sample Event",
+            priceRangeStart = 0,
+            currencyKey = "USD",
+            countryKey = "US",
+            organizer = Organizer("Sample Organizer"),
+            posters = listOf(Poster("1", PosterSize(PosterLocation("https://us-east1-testing-cnt.cinewav.com/image/2022/46/resized/114947/small-0b388fd8-f402-46f0-aed7-909c96a101e5.jpg")))),
+            performances = listOf()
+        )
+    )
 }
