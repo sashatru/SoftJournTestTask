@@ -1,12 +1,7 @@
-package com.example.eventapp.network
+package com.example.eventapp.model.remote
 
-import com.example.eventapp.model.Event
+import com.example.eventapp.model.data.Event
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class GraphQLRequest(
-    val query: String
-)
 
 @Serializable
 data class ResponseWrapper(
@@ -17,6 +12,7 @@ data class ResponseWrapper(
 data class DataWrapper(
     val getPublicEvents: EventResponse
 )
+
 @Serializable
 data class EventResponse(
     val items: List<Event>

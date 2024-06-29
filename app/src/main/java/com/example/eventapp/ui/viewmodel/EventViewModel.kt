@@ -3,13 +3,13 @@ package com.example.eventapp.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eventapp.model.Event
-import com.example.eventapp.repository.EventRepository
+import com.example.eventapp.model.data.Event
+import com.example.eventapp.repository.IEventRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class EventViewModel(private val repository: EventRepository) : ViewModel() {
+class EventViewModel(private val repository: IEventRepository) : ViewModel(), IEventViewModel {
     private val _events = MutableStateFlow<List<Event>>(emptyList())
     val events: StateFlow<List<Event>> get() = _events
 
@@ -17,7 +17,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
         fetchEvents()
     }
 
-    private fun fetchEvents() {
+    override fun fetchEvents() {
         viewModelScope.launch {
             try {
                 val events = repository.getEvents()
@@ -33,7 +33,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
                 _events.value = processedEvents
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("BugFix", "fetchEvents error" + e.message )
+                Log.e("BugFix", "fetchEvents error" + e.message)
             }
         }
     }

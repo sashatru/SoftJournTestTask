@@ -1,4 +1,4 @@
-package com.example.eventapp.model
+package com.example.eventapp.model.data
 
 import kotlinx.serialization.Serializable
 

@@ -26,11 +26,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.example.eventapp.model.Event
-import com.example.eventapp.model.Organizer
-import com.example.eventapp.model.Poster
-import com.example.eventapp.model.PosterLocation
-import com.example.eventapp.model.PosterSize
+import com.example.eventapp.model.data.Event
+import com.example.eventapp.model.data.Organizer
+import com.example.eventapp.model.data.Poster
+import com.example.eventapp.model.data.PosterLocation
+import com.example.eventapp.model.data.PosterSize
 import com.example.eventapp.ui.theme.EventAppTheme
 import com.example.eventapp.ui.viewmodel.EventViewModel
 import org.koin.androidx.compose.getViewModel

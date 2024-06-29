@@ -1,4 +1,4 @@
-package com.example.eventapp.ui
+package com.example.eventapp.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
