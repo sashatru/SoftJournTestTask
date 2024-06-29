@@ -1,6 +1,5 @@
 package com.example.eventapp.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventapp.model.data.Event
@@ -10,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class EventViewModel(private val repository: IEventRepository) : ViewModel(), IEventViewModel {
     private val _events = MutableStateFlow<List<Event>>(emptyList())
@@ -37,7 +37,7 @@ class EventViewModel(private val repository: IEventRepository) : ViewModel(), IE
                 _events.value = processedEvents
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("BugFix", "fetchEvents error" + e.message)
+                Timber.tag("BugFix").e("fetchEvents error %s", e.message)
             }
         }
     }
