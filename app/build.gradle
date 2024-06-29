@@ -45,6 +45,12 @@ android {
             it.excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    android {
+        buildFeatures {
+            buildConfig = true
+        }
+    }
 }
 
 dependencies {
@@ -57,6 +63,7 @@ dependencies {
     implementation libs.androidx.ui.graphics
     implementation libs.androidx.ui.tooling.preview
     implementation libs.androidx.material3
+    implementation 'androidx.lifecycle:lifecycle-process:2.8.2'
 
     //test
     testImplementation libs.junit
@@ -88,4 +95,6 @@ dependencies {
     //Coil
     implementation libs.coil.compose
 
+    //logging
+    implementation libs.timber
 }

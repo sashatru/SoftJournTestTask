@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventapp.model.data.Event
 import com.example.eventapp.repository.IEventRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EventViewModel(private val repository: IEventRepository) : ViewModel(), IEventViewModel {
     private val _events = MutableStateFlow<List<Event>>(emptyList())
@@ -20,7 +22,9 @@ class EventViewModel(private val repository: IEventRepository) : ViewModel(), IE
     override fun fetchEvents() {
         viewModelScope.launch {
             try {
-                val events = repository.getEvents()
+                val events = withContext(Dispatchers.IO) {
+                    repository.getEvents()
+                }
                 // Process data using sequences: filter, sort, and map
                 val processedEvents = events.asSequence()
                     .filter { it.priceRangeStart!! > 0 } // Example filter: price greater than 0
