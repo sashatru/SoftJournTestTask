@@ -89,6 +89,9 @@ dependencies {
     implementation "io.ktor:ktor-client-serialization:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
     implementation libs.ktor.client.gson
+    implementation libs.ktor.client.okhttp
+    implementation libs.ktor.client.gson
+    implementation libs.logging.interceptor
 
     implementation libs.kotlinx.serialization.json
 
