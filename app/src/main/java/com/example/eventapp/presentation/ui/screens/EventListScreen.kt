@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,8 +18,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -33,23 +36,28 @@ import com.example.eventapp.domain.model.PosterLocation
 import com.example.eventapp.domain.model.PosterSize
 import com.example.eventapp.presentation.ui.theme.EventAppTheme
 import com.example.eventapp.presentation.viewmodel.EventViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventListScreen(viewModel: EventViewModel = getViewModel()) {
     val events by viewModel.events.collectAsState()
+    val listState = rememberLazyListState()
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(
-                text = "Events",
-                style = MaterialTheme.typography.displayMedium
-            ) })
+            TopAppBar(title = {
+                Text(
+                    text = "Events",
+                    style = MaterialTheme.typography.displayMedium
+                )
+            })
         }
-    )
-    { innerPadding ->
+    ) { innerPadding ->
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
@@ -59,9 +67,27 @@ fun EventListScreen(viewModel: EventViewModel = getViewModel()) {
                 val event = events[index]
                 EventItem(event = event)
                 Spacer(modifier = Modifier.height(16.dp))
+
+                // Trigger pagination when the user scrolls to the bottom of the list
+                if (index == events.size - 1) {
+                    LaunchedEffect(index) {
+                        Timber.tag("OkHttp").v("ELS LaunchedEffect #1")
+                        viewModel.fetchEvents()
+                    }
+                }
             }
         }
     }
+
+    // Observe list state to trigger pagination
+/*    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex }.collectLatest { index ->
+            if (index >= events.size - 1) {
+                Timber.tag("OkHttp").v("ELS LaunchedEffect #2")
+                viewModel.fetchEvents()
+            }
+        }
+    }*/
 }
 
 @Composable
