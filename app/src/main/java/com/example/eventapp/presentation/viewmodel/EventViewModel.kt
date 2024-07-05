@@ -12,7 +12,6 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class EventViewModel(private val getEventUseCase: IGetEventUseCase) : ViewModel(), IEventViewModel {
-    private var downloadingEventsFinished: Boolean = false
     private val _events = MutableStateFlow<List<Event>>(emptyList())
     val events: StateFlow<List<Event>> get() = _events
 
@@ -25,8 +24,8 @@ class EventViewModel(private val getEventUseCase: IGetEventUseCase) : ViewModel(
 
     override fun fetchEvents() {
         Timber.tag("OkHttp")
-            .d("EVM fetchEvents downloadingEventsFinished = $downloadingEventsFinished")
-        if (!downloadingEventsFinished) viewModelScope.launch {
+            .d("EVM fetchEvents")
+        viewModelScope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
                     getEventUseCase.execute(currentPage, pageSize)
@@ -49,7 +48,7 @@ class EventViewModel(private val getEventUseCase: IGetEventUseCase) : ViewModel(
 
                     // Increment page for next fetch
                     currentPage++
-                } else downloadingEventsFinished = true
+                }
             }.onFailure { e ->
                 e.printStackTrace()
                 Timber.tag("OkHttp").e("fetchEvents error %s", e.message)
